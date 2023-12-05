@@ -24,15 +24,19 @@ class PurchaseCreate(CreateView):
         if new_quantity < 0:
             return HttpResponse(f'К сожалению, выбранного количества товара нет')
         discount_quantity = product.quantity
+        discount_percentage = 0.2
         if Discount.objects.filter(product=self.object.product.id).exists():
             discount = Discount.objects.get(product=self.object.product)
             discount_quantity = discount.start_quantity
-        if new_quantity <= discount_quantity // 2:
+            discount_percentage = discount.discount_percentage
+        else:
             Discount.objects.create(
                 product=self.object.product,
-                start_quantity=discount_quantity // 2
+                start_quantity=product.quantity,
+                discount_percentage=discount_percentage
             )
-            new_price = product.price * 1.2
+        if new_quantity <= discount_quantity // 2 < product.quantity:
+            new_price = product.price * (1 + discount_percentage)
         product.price = new_price
         product.quantity = new_quantity
         product.save()
