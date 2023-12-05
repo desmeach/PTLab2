@@ -11,12 +11,14 @@
             <tr>
                 <td><p>Наименование</p></td>
                 <td><p>Цена</p></td>
+                <td><p>Количество</p></td>
                 <td></td>
             </tr>
             {% for p in products %}
                 <tr>
                     <td><p>{{ p.name }}</p></td>
                     <td><p>{{ p.price }}</p></td>
+                    <td><p>{{ p.quantity }}</p></td>
                     <td><p><a href="/buy/{{ p.id }}">Купить</a></p></td>
                 </tr>
             {% endfor %}
