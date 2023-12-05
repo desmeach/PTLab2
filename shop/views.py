@@ -23,7 +23,7 @@ class PurchaseCreate(CreateView):
         if new_quantity < 0:
             return HttpResponse(f'К сожалению, выбранного количества товара нет')
         discount = Discount.get_by_product(product)
-        product.price = product.get_discount_price(discount)
+        product.price = product.get_discount_price(discount, new_quantity)
         product.quantity = new_quantity
         product.save()
         return HttpResponse(f'Спасибо за покупку, {self.object.person}!')

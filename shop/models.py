@@ -8,8 +8,8 @@ class Product(models.Model):
     start_quantity = models.PositiveIntegerField(default=0)
     quantity = models.PositiveIntegerField(default=0)
 
-    def get_discount_price(self, discount):
-        if self.price <= discount.start_quantity // 2 < self.quantity:
+    def get_discount_price(self, discount, new_quantity):
+        if new_quantity <= discount.start_quantity // 2 < self.quantity:
             return self.price * (1 + discount.discount_percentage)
         return self.price
 
